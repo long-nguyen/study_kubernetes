@@ -21,6 +21,10 @@ spec:
             cpu: "1"
           requests:
             cpu: "0.5"
+        #Đặt secret, cái này phải tạo secret trước
+        envFrom:
+          - secretRef:
+              name: my-app-secret
         #Forward port để kết nối ra ngoài
         ports:                  
         - containerPort: 8080                       

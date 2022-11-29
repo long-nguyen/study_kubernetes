@@ -1,0 +1,17 @@
+steps:
+  # build the container image
+  #docker build -t asia.gcr.io/testkubenetes-370014/myapp:latest . --platform linux/amd64
+- name: "gcr.io/cloud-builders/docker"
+  args: ["build", "-t", "asia.gcr.io/testkubenetes-370014/myapp:latest", "."]
+  # push container image
+  # docker push asia.gcr.io/testkubenetes-370014/myapp
+- name: "gcr.io/cloud-builders/docker"
+  args: ["push", "asia.gcr.io/testkubenetes-370014/myapp:latest"]
+  # deploy container image to GKE
+- name: "gcr.io/cloud-builders/gke-deploy"
+  args:
+  - run
+  - --filename=deployment/prod/deployment.yml
+  - --image=asia.gcr.io/testkubenetes-370014/myapp:latest
+  - --location=asia-southeast1
+  - --cluster=my-cluster2
