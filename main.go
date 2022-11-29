@@ -36,7 +36,7 @@ func sampleAPIHandler(c echo.Context) error {
 	godotenv.Load()
 	fmt.Println(os.Getenv("ENV_NAME"))
 	return c.JSON(http.StatusOK, map[string]interface{}{
-		"val": "Hello, World!",
+		"val": "Hello, World 2!",
 	})
 }
 
