@@ -1,0 +1,27 @@
+version: '3.8'
+
+#Tạo services, ở đây dùng postgres và go, thực ra chỉ là 2 cái lệnh chạy run docker thôi
+services:
+  postgres: #Tên service
+    container_name: postgres  #Đặt tên container khi chạy
+    image: postgres:latest  #Lấy ảnh ở đâu
+    environment:  # Biến môi trường
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user
+      POSTGRES_DB: mytestdb
+    ports:  #Expose port luôn
+      - "5432:5432"
+    volumes: # Vì docker nó stop thì data bị mất, run lại là bị clear, nên ta sẽ đưa data ra ngoài (giống như link data đến máy thật)  
+      - dbdata:/var/lib/postgresql/data #dbdata là reference name
+  
+  #service go này dùng cái Dockerfile luôn
+  go:
+    container_name: go
+    build:
+      context: .  #Nó build luôn cái Dockerfile ở thư mục hiện tại nên là ko cần chỉ định dockerfile để build nữa
+    depends_on:
+      - "postgres"
+volumes:  #liệt kê danh sách volume đã tạo
+  dbdata:
+
+#Build bằng lệnh: docker-compose up -d --build             

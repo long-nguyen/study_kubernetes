@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: myapp
+spec:
+  replicas: 1 #Số pods ta muốn scale, đây chỉ cần 1
+  selector: #Định nghĩa resource ta muốn query 
+    matchLabels: 
+      app: myapp 
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers: #Ta bắt đầu định nghĩa container cần dùng, lấy image từ google artifacts
+      - name: myapp
+        image: asia.gcr.io/testkubenetes-370014/myapp
+        imagePullPolicy: "Always" #Thêm cái này vào để luôn lấy docker image mới nhất, do đó ta chỉ cần delete pods là nó chạy lại
+        resources: #Nhiều khi ko cần cái này, ko hiểu sao mình dùng autopilot thì nó lại ko đủ memory nên phải khai báo cái này
+          limits:
+            cpu: "1"
+          requests:
+            cpu: "0.5"
+        #Forward port để kết nối ra ngoài
+        ports:                  
+        - containerPort: 8080                       
+          name: http                                
+        - containerPort: 22                         
+          name: ssh         
