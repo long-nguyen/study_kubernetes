@@ -32,7 +32,7 @@ func main() {
 }
 
 func sampleAPIHandler(c echo.Context) error {
-	fmt.Println("System started")
+	fmt.Println("System started again")
 	godotenv.Load()
 	fmt.Println(os.Getenv("ENV_NAME"))
 	return c.JSON(http.StatusOK, map[string]interface{}{
